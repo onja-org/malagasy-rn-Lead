@@ -13,22 +13,30 @@
     "prestorybook": "rnstl"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/picker": "^1.8.1",
+    "@react-native-picker/picker": "^1.16.0",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
+    "i": "^0.3.6",
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-dev-menu": "^4.0.2",
+    "react-native-dropdown-picker": "^5.1.15",
     "react-native-elements": "^3.4.0",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-get-random-values": "^1.7.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.1.1",
+    "react-native-select-plus": "^0.1.10",
     "react-native-svg": "^12.1.1",
     "react-native-svg-transformer": "^0.14.3",
+    "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^8.1.0",
-    "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
