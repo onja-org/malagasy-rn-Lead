@@ -7,6 +7,8 @@ import {
   SET_CURRENT_CATEGORY,
   SET_USER_PHRASES,
   NEW_KEY_PHRASES,
+  SET_SEEN_PHRASES,
+  SEEN_PHRASES_KEY,
 } from '../constants';
 
 // categories actions
@@ -46,6 +48,37 @@ export function setUserPhrases(phrases) {
   };
 }
 
+export function setSeenPhrases(phrases) {
+  return {
+    type: SET_SEEN_PHRASES,
+    payload: phrases,
+  };
+}
+
+// add seen phrases
+
+export function addSeenPhrases(phrase) {
+  return async dispatch => {
+    const storedPhrases = await getData(SEEN_PHRASES_KEY);
+    const dataToStore = storedPhrases ? [...storedPhrases, phrase] : [phrase];
+    await storeData(SEEN_PHRASES_KEY, dataToStore);
+    dispatch(setSeenPhrases(dataToStore));
+    return Promise.resolve();
+  };
+}
+
+// update seen phrases
+export function updateSeenPhrases(phrase) {
+  return async dispatch => {
+    const storedPhrases = await getData(SEEN_PHRASES_KEY);
+    const filteredSeenPhrases =
+      phrase && storedPhrases.filter(phr => phr.id !== phrase.id);
+    await storeData(SEEN_PHRASES_KEY, filteredSeenPhrases);
+    dispatch(setSeenPhrases(filteredSeenPhrases));
+    return null;
+  };
+}
+// add new phrases
 export function addNewPhrases(phrase) {
   return async dispatch => {
     const storedPhrases = await getData(NEW_KEY_PHRASES);
@@ -57,13 +90,18 @@ export function addNewPhrases(phrase) {
   };
 }
 
+// get data from asyncstorage
+
 export const syncStorageToRedux = () => {
   return async dispatch => {
     const storedPhrases = await getData(NEW_KEY_PHRASES);
-    if (!storedPhrases) {
-      return Promise.resolve();
+    if (storedPhrases) {
+      dispatch(setUserPhrases(storedPhrases));
     }
-    dispatch(setUserPhrases(storedPhrases));
+    const storedSeenPhrases = await getData(SEEN_PHRASES_KEY);
+    if (setSeenPhrases) {
+      dispatch(setSeenPhrases(storedSeenPhrases));
+    }
     return Promise.resolve();
   };
 };

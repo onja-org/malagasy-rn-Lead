@@ -6,10 +6,12 @@ import {
   setPhrases,
   syncStorageToRedux,
 } from '../redux/actions';
+
 import {
   categoriesRoot,
   nativeLanguageRoot,
   userPhrases,
+  seenPhrases,
 } from '../redux/selectors';
 
 function mapStateToProps(state) {
@@ -17,6 +19,7 @@ function mapStateToProps(state) {
     categories: categoriesRoot(state),
     nativeLanguage: nativeLanguageRoot(state),
     userPhrases: userPhrases(state),
+    seenPhrases: seenPhrases(state),
   };
 }
 const mapDispatchToProps = {

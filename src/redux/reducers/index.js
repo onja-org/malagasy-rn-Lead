@@ -7,6 +7,7 @@ import {
   SET_LANGUAGE_NAME,
   SET_CURRENT_CATEGORY,
   SET_USER_PHRASES,
+  SET_SEEN_PHRASES,
 } from '../constants';
 // categories reducer
 function categories(state = [], action) {
@@ -46,6 +47,16 @@ function nativeLanguage(state = '', action) {
       return state;
   }
 }
+//set seen phrases
+
+function seenPhrases(state = [], action) {
+  switch (action.type) {
+    case SET_SEEN_PHRASES:
+      return action.payload;
+    default:
+      return state;
+  }
+}
 
 // userPhrases reducer
 function userPhrases(state = [], action) {
@@ -64,4 +75,5 @@ export default combineReducers({
   categoryPhrases,
   nativeLanguage,
   userPhrases,
+  seenPhrases,
 });
