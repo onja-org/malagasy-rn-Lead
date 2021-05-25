@@ -1,10 +1,13 @@
 // components/Task.js
 import * as React from 'react';
-import { SafeAreaView, View, StyleSheet,TextInput } from 'react-native';
-// import { styles } from '../constants/globalStyles';
+import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
 
-export default function Example({phrase,editable,onChange = () => null, placeholder}) {
-
+export default function Textarea({
+  phrase,
+  editable,
+  onChange = () => null,
+  placeholder,
+}) {
   return (
     <SafeAreaView style={styles.container}>
       <TextInput
@@ -20,7 +23,7 @@ export default function Example({phrase,editable,onChange = () => null, placehol
 }
 
 const styles = StyleSheet.create({
-    container: {
+  container: {
     height: 100,
     marginVertical: 0,
     marginHorizontal: 'auto',
@@ -42,5 +45,4 @@ const styles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 24.3,
   },
-
-})
+});
