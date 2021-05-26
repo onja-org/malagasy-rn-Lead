@@ -14,7 +14,6 @@ export const getAllCategories = () => {
 
 export const getPhrasesForCategoryId = catId => {
   const phrasesIds = getPhraseIdsForCategory(catId);
-
   const allPhrases = getAllPhrases();
   const selectedPhrases = allPhrases.filter(phrase =>
     phrasesIds.includes(phrase.id),
@@ -47,6 +46,7 @@ export const findPhraseCategories = phraseId => {
 export function findCategoryById(id) {
   throw 'not implemented!';
   // TODO implement
+  return;
 }
 export function findPhraseById(id) {
   throw 'not implemented!';

@@ -23,9 +23,12 @@ import {shuffleArray} from '../utils';
 export default ({
   //nav provider
   navigation,
-
   categoryPhrases,
   currentCategoryName,
+  addSeenPhrases,
+  updateSeenPhrases,
+  categories,
+  seenPhrases,
 }) => {
   const [originalPhrases, setOriginalPhrases] = useState([]);
   const [phrasesLeft, setPhrasesLeft] = useState([]);
@@ -49,11 +52,21 @@ export default ({
   const selectAnswerCallback = useCallback(
     item => {
       if (item.id === currentPhrase.id) {
-        // TODO add to learned
+        // add to learned
+        // Get correct seen phrase
+        const correctPhraseInSeenPhrases = seenPhrases.find(
+          phr => phr.id === item.id,
+        );
+        // update seen phrases
+        if (correctPhraseInSeenPhrases) {
+          updateSeenPhrases(correctPhraseInSeenPhrases);
+        }
       } else {
-        // TODO add to seen
+        //add to seen
+        if (seenPhrases.every(phrase => phrase.id !== item.id)) {
+          addSeenPhrases(item);
+        }
       }
-
       setDisableAllOptions(true);
 
       const answerOptionsWithSelected = answerOptions.map(phrase => {
@@ -94,6 +107,10 @@ export default ({
     setAnswerOptionsCallback(originalAll, newPhrase);
   };
 
+  const currentSeenCategory = categories.find(cat =>
+    cat.phrasesIds.includes(currentPhrase?.id),
+  );
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
@@ -133,7 +150,11 @@ export default ({
           </View>
           <View style={styles.heading}>
             <SectionHeading text="Category: " />
-            <Text>{currentCategoryName}</Text>
+            <Text>
+              {currentSeenCategory
+                ? currentSeenCategory.name.en
+                : currentCategoryName}
+            </Text>
           </View>
           <View style={styles.heading}>
             <SectionHeading text="The phrase: " />
