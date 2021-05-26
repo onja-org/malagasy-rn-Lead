@@ -1,5 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
+export const SEEN_PHRASES_KEY = 'SEEN_PHRASES_KEY';
+export const NEW_KEY_PHRASES = '@NewPhrases';
+
 // store data in asyncstorage
 export const storeData = async (itemKey, items) => {
   try {

@@ -1,14 +1,17 @@
 // // import all of the constants from contants folder
-import {getData, storeData} from '../../utils/storage';
+import {
+  getData,
+  storeData,
+  SEEN_PHRASES_KEY,
+  NEW_KEY_PHRASES,
+} from '../../utils/storage';
 import {
   SET_CATEGORIES,
   SET_PHRASES,
   SET_LANGUAGE_NAME,
   SET_CURRENT_CATEGORY,
   SET_USER_PHRASES,
-  NEW_KEY_PHRASES,
   SET_SEEN_PHRASES,
-  SEEN_PHRASES_KEY,
 } from '../constants';
 
 // categories actions
@@ -75,7 +78,7 @@ export function updateSeenPhrases(phrase) {
       phrase && storedPhrases.filter(phr => phr.id !== phrase.id);
     await storeData(SEEN_PHRASES_KEY, filteredSeenPhrases);
     dispatch(setSeenPhrases(filteredSeenPhrases));
-    return null;
+    return Promise.resolve();
   };
 }
 // add new phrases
