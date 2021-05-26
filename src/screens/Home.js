@@ -66,8 +66,6 @@ export default ({
     if (seenPhrases.length !== 0) {
       setPhrases(seenPhrases);
       navigation.navigate('Learn');
-    } else {
-      return null;
     }
   };
 

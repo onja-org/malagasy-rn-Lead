@@ -1,7 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 
-// import Storybook from "./storybook";
-//import Storybook from "./storybook";
 import App from './App';
 
 const Root = () => {
@@ -19,8 +17,6 @@ const Root = () => {
     }
   }, [toggleStorybook]);
 
-  // return storybookActive ? <Storybook /> : <App />;
-  //return storybookActive ? <Storybook /> : <App />;
   return storybookActive ? <App /> : <App />;
 };
 

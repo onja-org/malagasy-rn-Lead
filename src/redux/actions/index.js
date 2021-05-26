@@ -99,7 +99,7 @@ export const syncStorageToRedux = () => {
       dispatch(setUserPhrases(storedPhrases));
     }
     const storedSeenPhrases = await getData(SEEN_PHRASES_KEY);
-    if (setSeenPhrases) {
+    if (storedSeenPhrases) {
       dispatch(setSeenPhrases(storedSeenPhrases));
     }
     return Promise.resolve();

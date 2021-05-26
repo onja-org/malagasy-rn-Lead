@@ -52,7 +52,7 @@ export default ({
   const selectAnswerCallback = useCallback(
     item => {
       if (item.id === currentPhrase.id) {
-        // TODO add to learned
+        // add to learned
         // Get correct seen phrase
         const correctPhraseInSeenPhrases = seenPhrases.find(
           phr => phr.id === item.id,
@@ -62,8 +62,7 @@ export default ({
           updateSeenPhrases(correctPhraseInSeenPhrases);
         }
       } else {
-        // TODO add to seen
-        // add seen phrases
+        //add to seen
         if (seenPhrases.every(phrase => phrase.id !== item.id)) {
           addSeenPhrases(item);
         }
