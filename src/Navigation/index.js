@@ -1,10 +1,11 @@
 import * as React from 'react';
+import NewTerm from '../containers/NewTermContainer';
+import HomeScreen from '../containers/HomeScreenContainer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import HomeScreen from '../containers/HomeScreenContainer';
-const Stack = createStackNavigator();
 import Learning from '../containers/LearningScreenContainer';
-import NewTerm from '../containers/NewTermContainer';
+
+const Stack = createStackNavigator();
 
 // a stack for screen navigator
 const HomeStack = () => {

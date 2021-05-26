@@ -1,5 +1,5 @@
-const categoriesData = require('./categories.json');
 const phrasesData = require('./phrases.json');
+const categoriesData = require('./categories.json');
 
 export const LANGUAGE_NAMES = {
   MG: 'mg',
@@ -40,7 +40,7 @@ export const getAllPhrases = () => {
 };
 
 export const findPhraseCategories = phraseId => {
-  return phrasesData.phrases;
+  return phrasesData.phrasesId;
 };
 
 export function findCategoryById(id) {

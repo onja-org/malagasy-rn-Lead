@@ -2,16 +2,19 @@
 import {
   getData,
   storeData,
-  SEEN_PHRASES_KEY,
   NEW_KEY_PHRASES,
+  SEEN_PHRASES_KEY,
 } from '../../utils/storage';
+
 import {
-  SET_CATEGORIES,
   SET_PHRASES,
-  SET_LANGUAGE_NAME,
-  SET_CURRENT_CATEGORY,
+  SET_CATEGORIES,
   SET_USER_PHRASES,
   SET_SEEN_PHRASES,
+  SET_LANGUAGE_NAME,
+  SET_LEARNT_PHRASES,
+  LEARNT_KEY_PHRASES,
+  SET_CURRENT_CATEGORY,
 } from '../constants';
 
 // categories actions
@@ -44,13 +47,6 @@ export function setLanguageName(language) {
   };
 }
 
-export function setUserPhrases(phrases) {
-  return {
-    type: SET_USER_PHRASES,
-    payload: phrases,
-  };
-}
-
 export function setSeenPhrases(phrases) {
   return {
     type: SET_SEEN_PHRASES,
@@ -58,14 +54,38 @@ export function setSeenPhrases(phrases) {
   };
 }
 
-// add seen phrases
+export function setLearntPhrases(learntPhrases) {
+  return {
+    type: SET_LEARNT_PHRASES,
+    payload: learntPhrases,
+  };
+}
 
+export function setUserPhrases(phrases) {
+  return {
+    type: SET_USER_PHRASES,
+    payload: phrases,
+  };
+}
+
+// add seen phrases
 export function addSeenPhrases(phrase) {
   return async dispatch => {
     const storedPhrases = await getData(SEEN_PHRASES_KEY);
     const dataToStore = storedPhrases ? [...storedPhrases, phrase] : [phrase];
     await storeData(SEEN_PHRASES_KEY, dataToStore);
     dispatch(setSeenPhrases(dataToStore));
+    return Promise.resolve();
+  };
+}
+
+// add learnt phrases
+export function addLearntPhrases(phrase) {
+  return async dispatch => {
+    const storedPhrases = await getData(LEARNT_KEY_PHRASES);
+    const dataToStore = storedPhrases ? [...storedPhrases, phrase] : [phrase];
+    await storeData(LEARNT_KEY_PHRASES, dataToStore);
+    dispatch(setLearntPhrases(dataToStore));
     return Promise.resolve();
   };
 }
@@ -81,7 +101,20 @@ export function updateSeenPhrases(phrase) {
     return Promise.resolve();
   };
 }
-// add new phrases
+
+// update learnt phrases
+export function updateLearntPhrases(wrongPhrase) {
+  return async dispatch => {
+    const storedPhrases = await getData(LEARNT_KEY_PHRASES);
+    const newLearntPhrases = storedPhrases.filter(
+      phr => phr.id !== wrongPhrase.id,
+    );
+    await storeData(LEARNT_KEY_PHRASES, newLearntPhrases);
+    dispatch(setLearntPhrases(newLearntPhrases));
+    return Promise.resolve();
+  };
+}
+
 export function addNewPhrases(phrase) {
   return async dispatch => {
     const storedPhrases = await getData(NEW_KEY_PHRASES);
@@ -93,18 +126,23 @@ export function addNewPhrases(phrase) {
   };
 }
 
-// get data from asyncstorage
-
 export const syncStorageToRedux = () => {
   return async dispatch => {
+    const storedLearntPhrases = await getData(LEARNT_KEY_PHRASES);
+    if (storedLearntPhrases) {
+      dispatch(setLearntPhrases(storedLearntPhrases));
+    }
+
     const storedPhrases = await getData(NEW_KEY_PHRASES);
     if (storedPhrases) {
       dispatch(setUserPhrases(storedPhrases));
     }
+
     const storedSeenPhrases = await getData(SEEN_PHRASES_KEY);
     if (storedSeenPhrases) {
       dispatch(setSeenPhrases(storedSeenPhrases));
     }
+
     return Promise.resolve();
   };
 };

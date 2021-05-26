@@ -1,5 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
 
+// import Storybook from "./storybook";
+
+// setting up async storage
 import App from './App';
 
 const Root = () => {
