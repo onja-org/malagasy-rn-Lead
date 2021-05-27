@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-// import all of constat case name for the swich
+// import all of constant case names for the swich
 // in reducers
 import {
   SET_PHRASES,
