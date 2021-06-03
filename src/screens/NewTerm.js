@@ -33,14 +33,14 @@ export default ({
   const [categoryId, setCategoryId] = useState('');
   const [englishPhrase, setEnglishPhrase] = useState('');
   const [malagasyPhrase, setMalagsyPhrase] = useState('');
-  const [selectIcon, setSelectIcon] = useState(true);
+  const [showSelectIcon, setShowSelectIcon] = useState(true);
 
   // Hiding icon when the user select one item
   const isIconShown = () => {
     if (selectedCategory === '') {
-      return setSelectIcon(!selectIcon);
+      setShowSelectIcon(!showSelectIcon);
     } else {
-      return setSelectIcon(selectIcon);
+      setShowSelectIcon(showSelectIcon);
     }
   };
 
@@ -147,7 +147,7 @@ export default ({
                   />
                 ))}
               </Picker>
-              {selectIcon && <SelectIcon />}
+              {showSelectIcon && <SelectIcon />}
             </View>
           </View>
           <View style={styles.headerPhrases}>
