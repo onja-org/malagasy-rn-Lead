@@ -22,6 +22,7 @@ import CheckIcon from '../components/ToolButton/assets/check.svg';
 import CheckAllIcon from '../components/ToolButton/assets/check-all.svg';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
+import ModeIcon from '../components/ToolButton/assets/mode.svg';
 
 export default ({
   //nav provider
@@ -32,6 +33,8 @@ export default ({
   userPhrases,
   learntPhrases,
   nativeLanguage,
+  nativeLanguage,
+  userPhrases,
   //actions
   setPhrases,
   setCategories,
@@ -90,8 +93,8 @@ export default ({
               button={
                 <LanguageSwitcher
                   firstLanguage={LANGUAGE_NAMES.EN}
-                  LeftText="EN"
-                  RightText="MA"
+                  LeftText="MG"
+                  RightText="EN"
                   color="#FFFFFF"
                   iconType=""
                   iconName="swap-horiz"
@@ -138,17 +141,12 @@ export default ({
             <SectionHeading text="Seen phrases:" />
           </View>
           <List
-            data={[
-              {
-                id: 1,
-                name: `${seenPhrases.length} words and phrases`,
-              },
-            ]}
+            data={[{id: 1, name: '35 words and phrases'}]}
             text={'Learn'}
             color="#06B6D4"
             iconType="material-community"
             iconName="arrow-right"
-            makeAction={openSeenPhrases}
+            makeAction={() => {}}
           />
           <View style={styles.heading}>
             <SectionHeading text="Learnt phrases:" />

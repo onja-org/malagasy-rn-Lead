@@ -146,8 +146,8 @@ export default ({
               button={
                 <LanguageSwitcher
                   firstLanguage={LANGUAGE_NAMES.EN}
-                  LeftText="EN"
-                  RightText="MA"
+                  LeftText="MG"
+                  RightText="EN"
                   color="#FFFFFF"
                   iconType=""
                   iconName="swap-horiz"
@@ -181,7 +181,7 @@ export default ({
               phrase={
                 shouldReshuffle
                   ? 'You have answered all the questions in this category'
-                  : currentPhrase?.name?.[LANGUAGE_NAMES.EN]
+                  : currentPhrase?.name?.[LANGUAGE_NAMES.MG]
               }
             />
           </View>
@@ -191,7 +191,7 @@ export default ({
                 <SectionHeading text="Pick a solution: " />
               </View>
               <List
-                lang={LANGUAGE_NAMES.MG}
+                lang={LANGUAGE_NAMES.EN}
                 data={answerOptions}
                 text="Pick"
                 color="#06B6D4"
