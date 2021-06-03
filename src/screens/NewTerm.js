@@ -18,6 +18,7 @@ import ToolButton from '../components/ToolButton/ToolButton';
 import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
 import BackIcon from '../components/ToolButton/assets/back.svg';
 import ModeIcon from '../components/ToolButton/assets/mode.svg';
+import SelectIcon from '../components/ToolButton/assets/pickerIcon';
 
 import {LANGUAGE_NAMES} from '../data/dataUtils';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
@@ -32,6 +33,16 @@ export default ({
   const [categoryId, setCategoryId] = useState('');
   const [englishPhrase, setEnglishPhrase] = useState('');
   const [malagasyPhrase, setMalagsyPhrase] = useState('');
+  const [showSelectIcon, setShowSelectIcon] = useState(true);
+
+  // Hiding icon when the user select one item
+  const isIconShown = () => {
+    if (selectedCategory === '') {
+      setShowSelectIcon(!showSelectIcon);
+    } else {
+      setShowSelectIcon(showSelectIcon);
+    }
+  };
 
   // Merging englishPhrase and malagasyPhrases
   const englishText = {
@@ -105,16 +116,24 @@ export default ({
           </View>
           <View style={styles.headerCategoryWrapper}>
             <SectionHeading text="Category: " />
-            <View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
               <Picker
                 selectedValue={selectedCategory}
                 style={{
-                  width: 300,
+                  width: 200,
                   height: 100,
+                  backgroundColor: 'transparent',
                 }}
                 mode="dropdown"
-                onValueChange={Text => selectCategory(Text)}
-                dropdownIconColor="0x06B6D4">
+                onValueChange={Text => {
+                  selectCategory(Text);
+                  isIconShown();
+                }}
+                dropdownIconColor="#06B6D4">
                 <Picker.Item
                   label={'Select Category'}
                   value={null}
@@ -128,6 +147,7 @@ export default ({
                   />
                 ))}
               </Picker>
+              {showSelectIcon && <SelectIcon />}
             </View>
           </View>
           <View style={styles.headerPhrases}>
