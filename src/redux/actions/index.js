@@ -80,7 +80,7 @@ export function addSeenPhrases(phrase) {
 }
 
 // add learnt phrases
-export function addLearntPhrases(phrase) {
+export function addLearntPhrase(phrase) {
   return async dispatch => {
     const storedPhrases = await getData(LEARNT_KEY_PHRASES);
     const dataToStore = storedPhrases ? [...storedPhrases, phrase] : [phrase];
@@ -102,8 +102,7 @@ export function updateSeenPhrases(phrase) {
   };
 }
 
-// update learnt phrases
-export function updateLearntPhrases(wrongPhrase) {
+export function removeLearntPhrase(wrongPhrase) {
   return async dispatch => {
     const storedPhrases = await getData(LEARNT_KEY_PHRASES);
     const newLearntPhrases = storedPhrases.filter(

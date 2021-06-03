@@ -1,11 +1,5 @@
 import {connect} from 'react-redux';
 import Home from '../screens/Home';
-import {
-  setPhrases,
-  setCategories,
-  setCurrentCategory,
-  syncStorageToRedux,
-} from '../redux/actions';
 
 import {
   userPhrases,
@@ -14,6 +8,13 @@ import {
   categoriesRoot,
   nativeLanguageRoot,
 } from '../redux/selectors';
+
+import {
+  setPhrases,
+  setCategories,
+  setCurrentCategory,
+  syncStorageToRedux,
+} from '../redux/actions';
 
 function mapStateToProps(state) {
   return {

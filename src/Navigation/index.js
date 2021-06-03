@@ -7,7 +7,7 @@ import Learning from '../containers/LearningScreenContainer';
 
 const Stack = createStackNavigator();
 
-// a stack for screen navigator
+// Stack for screen navigator
 const HomeStack = () => {
   return (
     <NavigationContainer>

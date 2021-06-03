@@ -28,10 +28,10 @@ export default ({
   learntPhrases,
   addSeenPhrases,
   categoryPhrases,
-  addLearntPhrases,
+  addLearntPhrase,
   updateSeenPhrases,
   currentCategoryName,
-  updateLearntPhrases,
+  removeLearntPhrase,
 }) => {
   const [phrasesLeft, setPhrasesLeft] = useState([]);
   const [answerOptions, setAnswerOptions] = useState([]);
@@ -55,29 +55,27 @@ export default ({
   const selectAnswerCallback = useCallback(
     item => {
       if (item.id === currentPhrase.id) {
-        // add to learned
-        // Get correct seen phrase
+        // Add seen phrases
         const correctPhraseInSeenPhrases = seenPhrases.find(
           phr => phr.id === item.id,
         );
-        // update seen phrases
         if (correctPhraseInSeenPhrases) {
           updateSeenPhrases(correctPhraseInSeenPhrases);
         }
-        // TODO add to learned
+        // Add learnt phrases
         learntPhrases.every(phrase => phrase.id !== item.id) &&
-          addLearntPhrases(item);
+          addLearntPhrase(item);
       } else {
-        //add to seen
+        // Add seen phrases
         if (seenPhrases.every(phrase => phrase.id !== item.id)) {
           addSeenPhrases(item);
         }
-        // TODO add to seen
+        // Add learnt phrases
         const wrongPhrasesInLearntPhrases = learntPhrases.find(
           phr => phr.id === item.id,
         );
         if (wrongPhrasesInLearntPhrases) {
-          updateLearntPhrases(wrongPhrasesInLearntPhrases);
+          removeLearntPhrase(wrongPhrasesInLearntPhrases);
         }
       }
       setDisableAllOptions(true);
@@ -86,7 +84,13 @@ export default ({
       });
       setAnswerOptions(answerOptionsWithSelected);
     },
-    [currentPhrase, setDisableAllOptions, answerOptions],
+    [
+      currentPhrase,
+      setDisableAllOptions,
+      answerOptions,
+      learntPhrases,
+      seenPhrases,
+    ],
   );
 
   const nextAnswerCallback = useCallback(() => {

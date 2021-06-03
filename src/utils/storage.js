@@ -13,6 +13,7 @@ export const storeData = async (itemKey, items) => {
   }
 };
 
+// read data from asyncstorage
 export const getData = async itemKey => {
   try {
     const jsonValue = await AsyncStorage.getItem(itemKey);

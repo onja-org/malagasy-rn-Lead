@@ -6,8 +6,6 @@ export const LANGUAGE_NAMES = {
   EN: 'en',
 };
 
-/// API exposed - we are using async to be ready for external source of data
-
 export const getAllCategories = () => {
   return categoriesData.categories;
 };
@@ -39,8 +37,8 @@ export const getAllPhrases = () => {
   return phrasesData.phrases;
 };
 
-export const findPhraseCategories = phraseId => {
-  return phrasesData.phrasesId;
+export const findPhraseCategories = () => {
+  return phrasesData.phrases;
 };
 
 export function findCategoryById(id) {

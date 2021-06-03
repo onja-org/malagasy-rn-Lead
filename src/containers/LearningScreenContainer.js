@@ -11,10 +11,10 @@ import {
 
 import {
   addSeenPhrases,
-  addLearntPhrases,
+  addLearntPhrase,
   setLearntPhrases,
   updateSeenPhrases,
-  updateLearntPhrases,
+  removeLearntPhrase,
 } from '../redux/actions';
 
 function mapStateToProps(state) {
@@ -30,10 +30,10 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   addSeenPhrases,
-  addLearntPhrases,
+  addLearntPhrase,
   setLearntPhrases,
   updateSeenPhrases,
-  updateLearntPhrases,
+  removeLearntPhrase,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Learning);

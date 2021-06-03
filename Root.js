@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 
-// setting up async storage
 import App from './App';
 
 const Root = () => {
