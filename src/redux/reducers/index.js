@@ -1,14 +1,16 @@
 import {combineReducers} from 'redux';
-// import all of constat case name for the swich
+// import all of constant case names for the swich
 // in reducers
 import {
-  SET_CATEGORIES,
   SET_PHRASES,
+  SET_CATEGORIES,
   SET_LANGUAGE_NAME,
+  SET_LEARNT_PHRASES,
   SET_CURRENT_CATEGORY,
   SET_USER_PHRASES,
   SET_SEEN_PHRASES,
 } from '../constants';
+
 // categories reducer
 function categories(state = [], action) {
   switch (action.type) {
@@ -47,8 +49,8 @@ function nativeLanguage(state = '', action) {
       return state;
   }
 }
-//set seen phrases
 
+//set seen phrases
 function seenPhrases(state = [], action) {
   switch (action.type) {
     case SET_SEEN_PHRASES:
@@ -68,12 +70,22 @@ function userPhrases(state = [], action) {
   }
 }
 
+function learntPhrases(state = [], action) {
+  switch (action.type) {
+    case SET_LEARNT_PHRASES:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 // combine all of the reducers together
 export default combineReducers({
-  currentCategoryId,
   categories,
-  categoryPhrases,
-  nativeLanguage,
   userPhrases,
   seenPhrases,
+  learntPhrases,
+  nativeLanguage,
+  categoryPhrases,
+  currentCategoryId,
 });

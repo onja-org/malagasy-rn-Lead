@@ -1,5 +1,17 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import {shuffleArray} from '../utils/index';
+import List from '../components/List/List';
 import {action} from '@storybook/addon-actions';
+import {LANGUAGE_NAMES} from '../data/dataUtils';
+import ToolBar from '../components/ToolBar/ToolBar';
+import Textarea from '../components/Textarea/Textarea';
+import NextButton from '../components/NextButton/NextButton';
+import ToolButton from '../components/ToolButton/ToolButton';
+import React, {useState, useEffect, useCallback} from 'react';
+import ModeIcon from '../components/ToolButton/assets/mode.svg';
+import BackIcon from '../components/ToolButton/assets/back.svg';
+import SectionHeading from '../components/SectionHeading/SectionHeading';
+import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
+
 import {
   Text,
   View,
@@ -7,35 +19,26 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
 } from 'react-native';
-import List from '../components/List/List';
-import SectionHeading from '../components/SectionHeading/SectionHeading';
-import ToolBar from '../components/ToolBar/ToolBar';
-import Textarea from '../components/Textarea/Textarea';
-import NextButton from '../components/NextButton/NextButton';
-import ToolButton from '../components/ToolButton/ToolButton';
-import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
-import BackIcon from '../components/ToolButton/assets/back.svg';
-import ModeIcon from '../components/ToolButton/assets/mode.svg';
-
-import {LANGUAGE_NAMES} from '../data/dataUtils';
-import {shuffleArray} from '../utils';
 
 export default ({
   //nav provider
   navigation,
-  categoryPhrases,
-  currentCategoryName,
-  addSeenPhrases,
-  updateSeenPhrases,
   categories,
   seenPhrases,
+  learntPhrases,
+  addSeenPhrases,
+  categoryPhrases,
+  addLearntPhrase,
+  updateSeenPhrases,
+  currentCategoryName,
+  removeLearntPhrase,
 }) => {
-  const [originalPhrases, setOriginalPhrases] = useState([]);
   const [phrasesLeft, setPhrasesLeft] = useState([]);
-  const [currentPhrase, setCurrentPhrase] = useState(null);
   const [answerOptions, setAnswerOptions] = useState([]);
-  const [disableAllOptions, setDisableAllOptions] = useState(false);
+  const [currentPhrase, setCurrentPhrase] = useState(null);
+  const [originalPhrases, setOriginalPhrases] = useState([]);
   const [shouldReshuffle, setshouldReshuffle] = useState(false);
+  const [disableAllOptions, setDisableAllOptions] = useState(false);
 
   useEffect(() => {
     setOriginalPhrases(categoryPhrases);
@@ -52,31 +55,44 @@ export default ({
   const selectAnswerCallback = useCallback(
     item => {
       if (item.id === currentPhrase.id) {
-        // add to learned
-        // Get correct seen phrase
+        // Add seen phrases
         const correctPhraseInSeenPhrases = seenPhrases.find(
           phr => phr.id === item.id,
         );
-        // update seen phrases
         if (correctPhraseInSeenPhrases) {
           updateSeenPhrases(correctPhraseInSeenPhrases);
         }
+        // Add learnt phrases
+        learntPhrases.every(phrase => phrase.id !== item.id) &&
+          addLearntPhrase(item);
       } else {
-        //add to seen
+        // Add seen phrases
         if (seenPhrases.every(phrase => phrase.id !== item.id)) {
           addSeenPhrases(item);
         }
+        // Add learnt phrases
+        const wrongPhrasesInLearntPhrases = learntPhrases.find(
+          phr => phr.id === item.id,
+        );
+        if (wrongPhrasesInLearntPhrases) {
+          removeLearntPhrase(wrongPhrasesInLearntPhrases);
+        }
       }
       setDisableAllOptions(true);
-
       const answerOptionsWithSelected = answerOptions.map(phrase => {
         return {...phrase, isSelected: phrase.id === item.id};
       });
-
       setAnswerOptions(answerOptionsWithSelected);
     },
-    [currentPhrase, setDisableAllOptions, answerOptions],
+    [
+      currentPhrase,
+      setDisableAllOptions,
+      answerOptions,
+      learntPhrases,
+      seenPhrases,
+    ],
   );
+
   const nextAnswerCallback = useCallback(() => {
     if (!Boolean(phrasesLeft.length)) {
       setshouldReshuffle(true);

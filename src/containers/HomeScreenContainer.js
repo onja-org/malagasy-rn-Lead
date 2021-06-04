@@ -1,31 +1,34 @@
 import {connect} from 'react-redux';
 import Home from '../screens/Home';
+
 import {
+  userPhrases,
+  seenPhrases,
+  learntPhrases,
+  categoriesRoot,
+  nativeLanguageRoot,
+} from '../redux/selectors';
+
+import {
+  setPhrases,
   setCategories,
   setCurrentCategory,
-  setPhrases,
   syncStorageToRedux,
 } from '../redux/actions';
 
-import {
-  categoriesRoot,
-  nativeLanguageRoot,
-  userPhrases,
-  seenPhrases,
-} from '../redux/selectors';
-
 function mapStateToProps(state) {
   return {
-    categories: categoriesRoot(state),
-    nativeLanguage: nativeLanguageRoot(state),
     userPhrases: userPhrases(state),
     seenPhrases: seenPhrases(state),
+    categories: categoriesRoot(state),
+    learntPhrases: learntPhrases(state),
+    nativeLanguage: nativeLanguageRoot(state),
   };
 }
 const mapDispatchToProps = {
+  setPhrases,
   setCategories,
   setCurrentCategory,
-  setPhrases,
   syncStorageToRedux,
 };
 

@@ -1,12 +1,10 @@
-const categoriesData = require('./categories.json');
 const phrasesData = require('./phrases.json');
+const categoriesData = require('./categories.json');
 
 export const LANGUAGE_NAMES = {
   MG: 'mg',
   EN: 'en',
 };
-
-/// API exposed - we are using async to be ready for external source of data
 
 export const getAllCategories = () => {
   return categoriesData.categories;
@@ -39,7 +37,7 @@ export const getAllPhrases = () => {
   return phrasesData.phrases;
 };
 
-export const findPhraseCategories = phraseId => {
+export const findPhraseCategories = () => {
   return phrasesData.phrases;
 };
 

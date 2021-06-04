@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Picker} from '@react-native-picker/picker';
 import {action} from '@storybook/addon-actions';
 import 'react-native-get-random-values';
@@ -11,17 +11,18 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
+import {LANGUAGE_NAMES} from '../data/dataUtils';
 import ToolBar from '../components/ToolBar/ToolBar';
 import Textarea from '../components/Textarea/Textarea';
 import NextButton from '../components/NextButton/NextButton';
 import ToolButton from '../components/ToolButton/ToolButton';
-import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
 import BackIcon from '../components/ToolButton/assets/back.svg';
 import ModeIcon from '../components/ToolButton/assets/mode.svg';
 import SelectIcon from '../components/ToolButton/assets/pickerIcon';
 
 import {LANGUAGE_NAMES} from '../data/dataUtils';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
+import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
 
 export default ({
   //nav provider
@@ -29,10 +30,10 @@ export default ({
   categories,
   addNewPhrases,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [englishPhrase, setEnglishPhrase] = useState('');
   const [malagasyPhrase, setMalagsyPhrase] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [showSelectIcon, setShowSelectIcon] = useState(true);
 
   // Hiding icon when the user select one item

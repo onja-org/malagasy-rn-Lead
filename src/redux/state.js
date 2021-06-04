@@ -2,9 +2,10 @@ import {LANGUAGE_NAMES} from '../data/dataUtils';
 
 export default {
   categories: [],
-  currentCategoryId: '',
-  categoryPhrases: [],
-  nativeLanguage: LANGUAGE_NAMES.EN,
   userPhrases: [],
   seenPhrases: [],
+  learntPhrases: [],
+  categoryPhrases: [],
+  currentCategoryId: '',
+  nativeLanguage: LANGUAGE_NAMES.EN,
 };
