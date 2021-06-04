@@ -19,8 +19,6 @@ import ToolButton from '../components/ToolButton/ToolButton';
 import BackIcon from '../components/ToolButton/assets/back.svg';
 import ModeIcon from '../components/ToolButton/assets/mode.svg';
 import SelectIcon from '../components/ToolButton/assets/pickerIcon';
-
-import {LANGUAGE_NAMES} from '../data/dataUtils';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
 
