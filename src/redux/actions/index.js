@@ -6,6 +6,8 @@ import {
   SEEN_PHRASES_KEY,
 } from '../../utils/storage';
 
+import {LANGUAGE_NAMES} from '../../data/dataUtils';
+
 import {
   SET_PHRASES,
   SET_CATEGORIES,
@@ -15,8 +17,8 @@ import {
   SET_LEARNT_PHRASES,
   LEARNT_KEY_PHRASES,
   SET_CURRENT_CATEGORY,
+  SET_SWITCH_LANGUAGES,
 } from '../constants';
-
 // categories actions
 export function setCategories(categories) {
   return {
@@ -67,6 +69,13 @@ export function setUserPhrases(phrases) {
     payload: phrases,
   };
 }
+
+// Handle languages switcher
+export const switchLanguages = () => {
+  return {
+    type: SET_SWITCH_LANGUAGES,
+  };
+};
 
 // add seen phrases
 export function addSeenPhrases(phrase) {
@@ -125,6 +134,7 @@ export function addNewPhrases(phrase) {
   };
 }
 
+// get data from asyncstorage
 export const syncStorageToRedux = () => {
   return async dispatch => {
     const storedLearntPhrases = await getData(LEARNT_KEY_PHRASES);

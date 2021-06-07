@@ -20,6 +20,17 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
+import {
+  PHRASES_HEADING,
+  PICK_SOLUTION_HEADING,
+  PICK_BUTTON,
+  NEXT_BUTTON,
+  CATEGORY_HEADING,
+  LANGUAGE_DATA,
+  RESHUFFLE_BUTTON,
+} from '../translations/index';
+import AsyncStorage from '@react-native-community/async-storage';
+
 export default ({
   //nav provider
   navigation,
@@ -32,6 +43,8 @@ export default ({
   updateSeenPhrases,
   currentCategoryName,
   removeLearntPhrase,
+  nativeLanguage,
+  switchLanguages,
 }) => {
   const [phrasesLeft, setPhrasesLeft] = useState([]);
   const [answerOptions, setAnswerOptions] = useState([]);
@@ -127,6 +140,14 @@ export default ({
     cat.phrasesIds.includes(currentPhrase?.id),
   );
 
+  const usedLanguage = nativeLanguage === LANGUAGE_NAMES.EN;
+  const categoryHeading = LANGUAGE_DATA[CATEGORY_HEADING][nativeLanguage];
+  const phraseHeading = LANGUAGE_DATA[PHRASES_HEADING][nativeLanguage];
+  const pickSolution = LANGUAGE_DATA[PICK_SOLUTION_HEADING][nativeLanguage];
+  const pickButton = LANGUAGE_DATA[PICK_BUTTON][nativeLanguage];
+  const nextButton = LANGUAGE_DATA[NEXT_BUTTON][nativeLanguage];
+  const reshuffleButton = LANGUAGE_DATA[RESHUFFLE_BUTTON][nativeLanguage];
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
@@ -145,13 +166,13 @@ export default ({
             <ToolBar
               button={
                 <LanguageSwitcher
-                  firstLanguage={LANGUAGE_NAMES.EN}
-                  LeftText="MG"
-                  RightText="EN"
+                  firstLanguage={nativeLanguage}
+                  LeftText={usedLanguage ? 'MG' : 'EN'}
+                  RightText={usedLanguage ? 'EN' : 'MG'}
                   color="#FFFFFF"
                   iconType=""
                   iconName="swap-horiz"
-                  onPress={() => null}
+                  onPress={() => switchLanguages(nativeLanguage)}
                   iconSize={24}
                 />
               }
@@ -165,15 +186,17 @@ export default ({
             />
           </View>
           <View style={styles.heading}>
-            <SectionHeading text="Category: " />
+            <SectionHeading text={categoryHeading} />
             <Text>
-              {currentSeenCategory
+              {usedLanguage && currentSeenCategory
                 ? currentSeenCategory.name.en
+                : currentCategoryName && currentSeenCategory
+                ? currentSeenCategory.name.mg
                 : currentCategoryName}
             </Text>
           </View>
           <View style={styles.heading}>
-            <SectionHeading text="The phrase: " />
+            <SectionHeading text={phraseHeading} />
           </View>
           <View style={{marginBottom: 37}}>
             <Textarea
@@ -181,19 +204,21 @@ export default ({
               phrase={
                 shouldReshuffle
                   ? 'You have answered all the questions in this category'
-                  : currentPhrase?.name?.[LANGUAGE_NAMES.MG]
+                  : currentPhrase?.name?.[
+                      usedLanguage ? LANGUAGE_NAMES.MG : LANGUAGE_NAMES.EN
+                    ]
               }
             />
           </View>
           {!shouldReshuffle && Boolean(answerOptions && answerOptions.length) && (
             <View>
               <View style={styles.heading}>
-                <SectionHeading text="Pick a solution: " />
+                <SectionHeading text={pickSolution} />
               </View>
               <List
-                lang={LANGUAGE_NAMES.EN}
+                lang={usedLanguage ? LANGUAGE_NAMES.EN : LANGUAGE_NAMES.MG}
                 data={answerOptions}
-                text="Pick"
+                text={pickButton}
                 color="#06B6D4"
                 iconType="material-community"
                 iconName="arrow-right"
@@ -209,7 +234,7 @@ export default ({
               <NextButton
                 isDisabled={false}
                 textColor="#FFFFFF"
-                text={'Next'}
+                text={nextButton}
                 onPress={nextAnswerCallback}
               />
             </View>
@@ -219,7 +244,7 @@ export default ({
               <NextButton
                 isDisabled={false}
                 textColor="#FFFFFF"
-                text={'Reshuffle'}
+                text={reshuffleButton}
                 onPress={reshuffleCallback}
               />
             </View>

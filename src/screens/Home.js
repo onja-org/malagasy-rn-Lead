@@ -23,6 +23,15 @@ import CheckAllIcon from '../components/ToolButton/assets/check-all.svg';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
 
+import {
+  HOME_CATEGORY_HEADING,
+  LEARN_BUTTON,
+  SEEN_PHRASES_HEADING,
+  LEARNT_PHRASES_HEADING,
+  WORDS_PHRASES_HEADING,
+  LANGUAGE_DATA,
+} from '../translations/index';
+
 export default ({
   //nav provider
   navigation,
@@ -37,6 +46,7 @@ export default ({
   setCategories,
   setCurrentCategory,
   syncStorageToRedux,
+  switchLanguages,
 }) => {
   useEffect(() => {
     syncStorageToRedux();
@@ -74,6 +84,15 @@ export default ({
     learntPhrases.length && navigation.navigate('Learn');
   };
 
+  const usedLanguage = nativeLanguage === LANGUAGE_NAMES.EN;
+  const categoryHeading = LANGUAGE_DATA[HOME_CATEGORY_HEADING][nativeLanguage];
+  const learnButton = LANGUAGE_DATA[LEARN_BUTTON][nativeLanguage];
+  const seenPhrasesHeading =
+    LANGUAGE_DATA[SEEN_PHRASES_HEADING][nativeLanguage];
+  const learnPhraseHeading =
+    LANGUAGE_DATA[LEARNT_PHRASES_HEADING][nativeLanguage];
+  const wordsAndPhrasesHeading =
+    LANGUAGE_DATA[WORDS_PHRASES_HEADING][nativeLanguage];
   return (
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
@@ -89,13 +108,13 @@ export default ({
             <ToolBar
               button={
                 <LanguageSwitcher
-                  firstLanguage={LANGUAGE_NAMES.EN}
-                  LeftText="MG"
-                  RightText="EN"
+                  firstLanguage={nativeLanguage}
+                  LeftText={usedLanguage ? 'MG' : 'EN'}
+                  RightText={usedLanguage ? 'EN' : 'MG'}
                   color="#FFFFFF"
                   iconType=""
                   iconName="swap-horiz"
-                  onPress={() => null}
+                  onPress={() => switchLanguages(nativeLanguage)}
                   iconSize={24}
                 />
               }
@@ -123,34 +142,41 @@ export default ({
             />
           </View>
           <View style={styles.heading}>
-            <SectionHeading text="Select a category:" />
+            <SectionHeading text={categoryHeading} />
           </View>
           <List
             lang={nativeLanguage}
             data={categories}
-            text={'Learn'}
+            text={learnButton}
             color="#06B6D4"
             iconType="material-community"
             iconName="arrow-right"
             makeAction={openCategoryPhrases}
           />
           <View style={styles.heading}>
-            <SectionHeading text="Seen phrases:" />
+            <SectionHeading text={seenPhrasesHeading} />
           </View>
           <List
-            data={[{id: 1, name: `${seenPhrases.length} words and phrases`}]}
-            text={'Learn'}
+            data={[
+              {id: 1, name: `${seenPhrases.length} ${wordsAndPhrasesHeading}`},
+            ]}
+            text={learnButton}
             color="#06B6D4"
             iconType="material-community"
             iconName="arrow-right"
             makeAction={openSeenPhrases}
           />
           <View style={styles.heading}>
-            <SectionHeading text="Learnt phrases:" />
+            <SectionHeading text={learnPhraseHeading} />
           </View>
           <List
-            data={[{id: 2, name: `${learntPhrases.length} words and phrases`}]}
-            text={'Learn'}
+            data={[
+              {
+                id: 2,
+                name: `${learntPhrases.length} ${wordsAndPhrasesHeading}`,
+              },
+            ]}
+            text={learnButton}
             color="#06B6D4"
             iconType="material-community"
             iconName="arrow-right"

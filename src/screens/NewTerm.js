@@ -19,6 +19,17 @@ import ToolButton from '../components/ToolButton/ToolButton';
 import BackIcon from '../components/ToolButton/assets/back.svg';
 import ModeIcon from '../components/ToolButton/assets/mode.svg';
 import SelectIcon from '../components/ToolButton/assets/pickerIcon';
+
+import {
+  CATEGORY_HEADING,
+  SELECT_CATEGORY,
+  PHRASE_IN_ENGLISH,
+  PHRASE_IN_MALAGASY,
+  ADD_BUTTON,
+  TEXTAREA_PLACEHOLDER,
+  LANGUAGE_DATA,
+} from '../translations/index';
+
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
 
@@ -27,6 +38,8 @@ export default ({
   navigation,
   categories,
   addNewPhrases,
+  nativeLanguage,
+  switchLanguages,
 }) => {
   const [categoryId, setCategoryId] = useState('');
   const [englishPhrase, setEnglishPhrase] = useState('');
@@ -55,7 +68,9 @@ export default ({
   // find the selected category
   const selectCategory = Text => {
     setSelectedCategory(Text);
-    const selectedCat = categories.find(cat => cat.name.en === Text);
+    const selectedCat = categories.find(cat =>
+      usedLanguage ? cat.name.en === Text : cat.name.mg === Text,
+    );
     setCategoryId(selectedCat.id);
   };
   const addnewPhraseForCategory = () => {
@@ -70,11 +85,22 @@ export default ({
     setMalagsyPhrase('');
   };
 
+  // Add button
   const textColour =
     malagasyPhrase && englishPhrase && selectedCategory ? '#ffffff' : '#06B6D4';
 
   const isButtonDisabled =
     malagasyPhrase && englishPhrase && selectedCategory ? false : true;
+
+  // Switch languages
+  const usedLanguage = nativeLanguage === LANGUAGE_NAMES.EN;
+  const categoryHeading = LANGUAGE_DATA[CATEGORY_HEADING][nativeLanguage];
+  const selectCategoryPicker = LANGUAGE_DATA[SELECT_CATEGORY][nativeLanguage];
+  const phrasesInEnglish = LANGUAGE_DATA[PHRASE_IN_ENGLISH][nativeLanguage];
+  const phraseInMalagasy = LANGUAGE_DATA[PHRASE_IN_MALAGASY][nativeLanguage];
+  const addButton = LANGUAGE_DATA[ADD_BUTTON][nativeLanguage];
+  const textareaPlaceholder =
+    LANGUAGE_DATA[TEXTAREA_PLACEHOLDER][nativeLanguage];
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -101,20 +127,20 @@ export default ({
             <ToolBar
               button={
                 <LanguageSwitcher
-                  firstLanguage={LANGUAGE_NAMES.EN}
-                  LeftText="EN"
-                  RightText="MA"
+                  firstLanguage={nativeLanguage}
+                  LeftText={usedLanguage ? 'MG' : 'EN'}
+                  RightText={usedLanguage ? 'EN' : 'MG'}
                   color="#FFFFFF"
                   iconType=""
                   iconName="swap-horiz"
-                  onPress={() => null}
+                  onPress={() => switchLanguages(nativeLanguage)}
                   iconSize={24}
                 />
               }
             />
           </View>
           <View style={styles.headerCategoryWrapper}>
-            <SectionHeading text="Category: " />
+            <SectionHeading text={categoryHeading} />
             <View
               style={{
                 flexDirection: 'row',
@@ -134,39 +160,47 @@ export default ({
                 }}
                 dropdownIconColor="#06B6D4">
                 <Picker.Item
-                  label={'Select Category'}
+                  label={selectCategoryPicker}
                   value={null}
                   color="#06B6D4"
                 />
-                {categories.map(categoryName => (
-                  <Picker.Item
-                    label={categoryName.name.en}
-                    key={categoryName.id}
-                    value={categoryName.name.en}
-                  />
-                ))}
+                {usedLanguage
+                  ? categories.map(categoryName => (
+                      <Picker.Item
+                        label={categoryName.name.en}
+                        key={categoryName.id}
+                        value={categoryName.name.en}
+                      />
+                    ))
+                  : categories.map(categoryName => (
+                      <Picker.Item
+                        label={categoryName.name.mg}
+                        key={categoryName.id}
+                        value={categoryName.name.mg}
+                      />
+                    ))}
               </Picker>
               {showSelectIcon && <SelectIcon />}
             </View>
           </View>
           <View style={styles.headerPhrases}>
             <Text style={{paddingBottom: 15}}>
-              <SectionHeading text="The phrase in English: " />
+              <SectionHeading text={phrasesInEnglish} />
             </Text>
             <Textarea
               editable={true}
               multiline={true}
-              placeholder="Enter here"
+              placeholder={textareaPlaceholder}
               phrase={englishPhrase}
               onChange={Text => setEnglishPhrase(Text)}
             />
           </View>
           <View style={styles.headerPhrases}>
             <Text style={{paddingBottom: 15}}>
-              <SectionHeading text="The phrase in Malagasy: " />
+              <SectionHeading text={phraseInMalagasy} />
             </Text>
             <Textarea
-              placeholder="Enter here"
+              placeholder={textareaPlaceholder}
               editable={true}
               multiline={true}
               phrase={malagasyPhrase}
@@ -175,8 +209,8 @@ export default ({
           </View>
           <View style={styles.addButton}>
             <NextButton
-              onPress={() => addnewPhraseForCategory()}
-              text="Add"
+              onPress={addnewPhraseForCategory}
+              text={addButton}
               textColor={textColour}
               isDisabled={isButtonDisabled}
             />
