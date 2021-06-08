@@ -17,7 +17,7 @@ import {
   SET_LEARNT_PHRASES,
   LEARNT_KEY_PHRASES,
   SET_CURRENT_CATEGORY,
-  SET_SWITCH_LANGUAGES,
+  SWITCH_LANGUAGES,
 } from '../constants';
 // categories actions
 export function setCategories(categories) {
@@ -73,7 +73,7 @@ export function setUserPhrases(phrases) {
 // Handle languages switcher
 export const switchLanguages = () => {
   return {
-    type: SET_SWITCH_LANGUAGES,
+    type: SWITCH_LANGUAGES,
   };
 };
 

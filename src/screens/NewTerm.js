@@ -66,10 +66,12 @@ export default ({
   const mergingPhrasesStates = {...englishText, ...malagasyText};
 
   // find the selected category
-  const selectCategory = Text => {
-    setSelectedCategory(Text);
+  const selectCategory = categoryName => {
+    setSelectedCategory(categoryName);
     const selectedCat = categories.find(cat =>
-      usedLanguage ? cat.name.en === Text : cat.name.mg === Text,
+      usedLanguage
+        ? cat.name.en === categoryName
+        : cat.name.mg === categoryName,
     );
     setCategoryId(selectedCat.id);
   };
