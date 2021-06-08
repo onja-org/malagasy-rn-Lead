@@ -1,5 +1,12 @@
 import {connect} from 'react-redux';
 import Home from '../screens/Home';
+import {
+  setCategories,
+  setCurrentCategory,
+  setPhrases,
+  syncStorageToRedux,
+  switchLanguages,
+} from '../redux/actions';
 
 import {
   userPhrases,
@@ -8,13 +15,6 @@ import {
   categoriesRoot,
   nativeLanguageRoot,
 } from '../redux/selectors';
-
-import {
-  setPhrases,
-  setCategories,
-  setCurrentCategory,
-  syncStorageToRedux,
-} from '../redux/actions';
 
 function mapStateToProps(state) {
   return {
@@ -30,6 +30,7 @@ const mapDispatchToProps = {
   setCategories,
   setCurrentCategory,
   syncStorageToRedux,
+  switchLanguages,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

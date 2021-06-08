@@ -9,6 +9,12 @@ import {
   SectionList,
 } from 'react-native';
 
+import {
+  CORRECT_BUTTON,
+  WRONG_BUTTON,
+  LANGUAGE_DATA,
+} from '../../translations/index';
+
 export const Separator = () => <View style={styles.separator} />;
 const RenderDataItem = ({
   item,
@@ -29,11 +35,14 @@ const RenderDataItem = ({
   const shouldReveal = isSelected || showAsCorrect;
   const shouldDisplayAnswer = showAnswerMode && shouldReveal;
 
+  const correctButtonText = LANGUAGE_DATA[CORRECT_BUTTON][lang];
+  const wrongButtonText = LANGUAGE_DATA[WRONG_BUTTON][lang];
+
   const textToDisplay = !shouldDisplayAnswer
     ? text
     : showAsCorrect
-    ? 'Correct'
-    : 'Wrong';
+    ? correctButtonText
+    : wrongButtonText;
 
   const colorToDisplay = !shouldDisplayAnswer
     ? color

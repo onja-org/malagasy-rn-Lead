@@ -9,7 +9,10 @@ import {
   SET_CURRENT_CATEGORY,
   SET_USER_PHRASES,
   SET_SEEN_PHRASES,
+  SWITCH_LANGUAGES,
 } from '../constants';
+
+import {LANGUAGE_NAMES} from '../../data/dataUtils';
 
 // categories reducer
 function categories(state = [], action) {
@@ -45,6 +48,10 @@ function nativeLanguage(state = '', action) {
   switch (action.type) {
     case SET_LANGUAGE_NAME:
       return action.payload;
+    case SWITCH_LANGUAGES:
+      return state === LANGUAGE_NAMES.EN
+        ? LANGUAGE_NAMES.MG
+        : LANGUAGE_NAMES.EN;
     default:
       return state;
   }
