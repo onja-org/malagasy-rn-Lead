@@ -22,6 +22,8 @@ import CheckIcon from '../components/ToolButton/assets/check.svg';
 import CheckAllIcon from '../components/ToolButton/assets/check-all.svg';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
+import LEARNT_PRHASES_ID from '../redux/constants';
+import SEEN_PHRASES_ID from '../redux/constants';
 
 import {
   HOME_CATEGORY_HEADING,
@@ -158,7 +160,10 @@ export default ({
           </View>
           <List
             data={[
-              {id: 1, name: `${seenPhrases.length} ${wordsAndPhrasesHeading}`},
+              {
+                id: `${SEEN_PHRASES_ID}`,
+                name: `${seenPhrases.length} ${wordsAndPhrasesHeading}`,
+              },
             ]}
             text={learnButton}
             color="#06B6D4"
@@ -172,7 +177,7 @@ export default ({
           <List
             data={[
               {
-                id: 2,
+                id: `${LEARNT_PRHASES_ID}`,
                 name: `${learntPhrases.length} ${wordsAndPhrasesHeading}`,
               },
             ]}

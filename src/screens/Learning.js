@@ -11,6 +11,7 @@ import ModeIcon from '../components/ToolButton/assets/mode.svg';
 import BackIcon from '../components/ToolButton/assets/back.svg';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
+import {getPhrasesForCategoryId} from '../data/dataUtils';
 
 import {
   Text,
@@ -29,7 +30,6 @@ import {
   LANGUAGE_DATA,
   RESHUFFLE_BUTTON,
 } from '../translations/index';
-import AsyncStorage from '@react-native-community/async-storage';
 
 export default ({
   //nav provider
@@ -60,8 +60,20 @@ export default ({
 
   const setAnswerOptionsCallback = (original, current) => {
     const originWithoutCurrent = original.filter(phr => phr.id !== current.id);
-    const randomFromAll = shuffleArray(originWithoutCurrent).slice(0, 3);
-    const randomWithCorrect = shuffleArray([...randomFromAll, current]);
+
+    const phraseCategoryId = categories.find(cat =>
+      cat.phrasesIds.includes(current?.id),
+    );
+
+    const allNewPhrases = getPhrasesForCategoryId(phraseCategoryId?.id);
+    const removeDuplicateItem = allNewPhrases.filter(
+      phr => phr.id !== current.id,
+    );
+    const randomFromAll = shuffleArray(
+      seenPhrases || learntPhrases ? removeDuplicateItem : originWithoutCurrent,
+    ).slice(0, 3);
+
+    let randomWithCorrect = shuffleArray([...randomFromAll, current]);
     setAnswerOptions(randomWithCorrect);
   };
 

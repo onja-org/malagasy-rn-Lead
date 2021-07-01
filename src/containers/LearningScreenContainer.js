@@ -8,6 +8,7 @@ import {
   categoryPhrasesRoot,
   currentCategoryName,
   nativeLanguageRoot,
+  currentCategoryIdRoot,
 } from '../redux/selectors';
 
 import {
@@ -28,6 +29,7 @@ function mapStateToProps(state) {
     categoryPhrases: categoryPhrasesRoot(state),
     currentCategoryName: currentCategoryName(state),
     nativeLanguage: nativeLanguageRoot(state),
+    currentCategoryId: currentCategoryIdRoot(state),
   };
 }
 

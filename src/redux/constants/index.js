@@ -8,3 +8,5 @@ export const SET_LEARNT_PHRASES = 'SET_LEARNT_PHRASES';
 export const LEARNT_KEY_PHRASES = 'LEARNT_KEY_PHRASES';
 export const SET_CURRENT_CATEGORY = 'SET_CURRENT_CATEGORY';
 export const SWITCH_LANGUAGES = 'SWITCH_LANGUAGES';
+export const LEARNT_PRHASES_ID = '###learnt-phrases###';
+export const SEEN_PHRASES_ID = '###seen-phrases###';
