@@ -6,8 +6,6 @@ import {
   SEEN_PHRASES_KEY,
 } from '../../utils/storage';
 
-import {LANGUAGE_NAMES} from '../../data/dataUtils';
-
 import {
   SET_PHRASES,
   SET_CATEGORIES,
@@ -19,6 +17,8 @@ import {
   SET_CURRENT_CATEGORY,
   SWITCH_LANGUAGES,
 } from '../constants';
+
+import {getAllCategories} from '../../data/dataUtils';
 // categories actions
 export function setCategories(categories) {
   return {
@@ -76,6 +76,14 @@ export const switchLanguages = () => {
     type: SWITCH_LANGUAGES,
   };
 };
+
+export function asyncGetAllCategories() {
+  return async dispatch => {
+    const categories = await getAllCategories();
+    dispatch(setCategories(categories));
+    return Promise.resolve();
+  };
+}
 
 // add seen phrases
 export function addSeenPhrases(phrase) {

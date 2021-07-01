@@ -1,13 +1,12 @@
 const phrasesData = require('./phrases.json');
 const categoriesData = require('./categories.json');
-
 export const LANGUAGE_NAMES = {
   MG: 'mg',
   EN: 'en',
 };
 
-export const getAllCategories = () => {
-  return categoriesData.categories;
+export const getAllCategories = async () => {
+  return Promise.resolve(categoriesData.categories);
 };
 
 export const getPhrasesForCategoryId = catId => {

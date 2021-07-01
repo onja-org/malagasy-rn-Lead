@@ -29,7 +29,6 @@ import {
   LANGUAGE_DATA,
   RESHUFFLE_BUTTON,
 } from '../translations/index';
-import AsyncStorage from '@react-native-community/async-storage';
 
 export default ({
   //nav provider
