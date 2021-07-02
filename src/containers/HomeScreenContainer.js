@@ -6,6 +6,7 @@ import {
   setPhrases,
   syncStorageToRedux,
   switchLanguages,
+  asyncGetAllCategories,
 } from '../redux/actions';
 
 import {
@@ -31,6 +32,7 @@ const mapDispatchToProps = {
   setCurrentCategory,
   syncStorageToRedux,
   switchLanguages,
+  asyncGetAllCategories,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
