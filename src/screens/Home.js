@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {action} from '@storybook/addon-actions';
 import {getPhrasesForCategoryId, LANGUAGE_NAMES} from '../data/dataUtils';
 
 import {
@@ -30,10 +29,13 @@ import {
   LANGUAGE_DATA,
 } from '../translations/index';
 
+import {getStyle, CONTAINER_STYLE, getFillColor} from '../ThemeMode/ThemeMode';
+
 export default ({
   //nav provider
   navigation,
   //state props
+  themeMode,
   categories,
   seenPhrases,
   userPhrases,
@@ -45,6 +47,7 @@ export default ({
   syncStorageToRedux,
   switchLanguages,
   asyncGetAllCategories,
+  switchThemeMode,
 }) => {
   useEffect(() => {
     syncStorageToRedux();
@@ -91,13 +94,20 @@ export default ({
     LANGUAGE_DATA[WORDS_PHRASES_HEADING][nativeLanguage];
   return (
     <SafeAreaView style={{flex: 1}}>
-      <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior="padding"
+        style={getStyle(CONTAINER_STYLE, themeMode)}>
         <View style={{paddingHorizontal: 35, paddingVertical: 23}}>
           <View style={styles.header}>
             <ToolBar
               button={
                 <ToolButton onPress={() => navigation.navigate('NewTerm')}>
-                  <AddIcon width={24} height={24} fill="#FFFFFF" />
+                  <AddIcon
+                    width={24}
+                    height={24}
+                    fill={getFillColor(themeMode)}
+                  />
                 </ToolButton>
               }
             />
@@ -107,7 +117,7 @@ export default ({
                   firstLanguage={nativeLanguage}
                   LeftText={usedLanguage ? 'MG' : 'EN'}
                   RightText={usedLanguage ? 'EN' : 'MG'}
-                  color="#FFFFFF"
+                  color={getFillColor(themeMode)}
                   iconType=""
                   iconName="swap-horiz"
                   onPress={() => switchLanguages(nativeLanguage)}
@@ -118,41 +128,57 @@ export default ({
             <ToolBar
               button={
                 <ToolButton onPress={openSeenPhrases}>
-                  <CheckIcon width={24} height={24} fill="#FFFFFF" />
+                  <CheckIcon
+                    width={24}
+                    height={24}
+                    fill={getFillColor(themeMode)}
+                  />
                 </ToolButton>
               }
             />
             <ToolBar
               button={
                 <ToolButton onPress={openLearntPhrases}>
-                  <CheckAllIcon width={24} height={24} fill="#FFFFFF" />
+                  <CheckAllIcon
+                    width={24}
+                    height={24}
+                    fill={getFillColor(themeMode)}
+                  />
                 </ToolButton>
               }
             />
             <ToolBar
               button={
-                <ToolButton onPress={action('clicked-add-button')}>
-                  <ModeIcon width={24} height={24} fill="#FFFFFF" />
+                <ToolButton onPress={() => switchThemeMode()}>
+                  <ModeIcon
+                    width={24}
+                    height={24}
+                    fill={getFillColor(themeMode)}
+                  />
                 </ToolButton>
               }
             />
           </View>
           <View style={styles.heading}>
-            <SectionHeading text={categoryHeading} />
+            <SectionHeading text={categoryHeading} themeMode={themeMode} />
           </View>
-          <List
-            lang={nativeLanguage}
-            data={categories}
-            text={learnButton}
-            color="#06B6D4"
-            iconType="material-community"
-            iconName="arrow-right"
-            makeAction={openCategoryPhrases}
-          />
+          <View>
+            <List
+              themeMode={themeMode}
+              text={'Learn'}
+              color="#06B6D4"
+              data={categories}
+              lang={nativeLanguage}
+              iconName="arrow-right"
+              iconType="material-community"
+              makeAction={openCategoryPhrases}
+            />
+          </View>
           <View style={styles.heading}>
-            <SectionHeading text={seenPhrasesHeading} />
+            <SectionHeading text={seenPhrasesHeading} themeMode={themeMode} />
           </View>
           <List
+            themeMode={themeMode}
             data={[
               {
                 id: `${SEEN_PHRASES_ID}`,
@@ -166,7 +192,7 @@ export default ({
             makeAction={openSeenPhrases}
           />
           <View style={styles.heading}>
-            <SectionHeading text={learnPhraseHeading} />
+            <SectionHeading text={learnPhraseHeading} themeMode={themeMode} />
           </View>
           <List
             data={[
@@ -176,6 +202,13 @@ export default ({
               },
             ]}
             text={learnButton}
+            themeMode={themeMode}
+            data={[
+              {
+                id: 2,
+                name: `${learntPhrases.length} ${wordsAndPhrasesHeading}`,
+              },
+            ]}
             color="#06B6D4"
             iconType="material-community"
             iconName="arrow-right"

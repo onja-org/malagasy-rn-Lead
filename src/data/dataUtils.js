@@ -40,12 +40,7 @@ export const findPhraseCategories = () => {
   return phrasesData.phrases;
 };
 
-export function findCategoryById(id) {
-  throw 'not implemented!';
-  // TODO implement
-  return;
-}
-export function findPhraseById(id) {
+export function findCategoryById() {
   throw 'not implemented!';
   // TODO implement
 }

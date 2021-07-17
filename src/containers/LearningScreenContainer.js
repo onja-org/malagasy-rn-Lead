@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import Learning from '../screens/Learning';
 import {
+  themeMode,
   seenPhrases,
   userPhrases,
   learntPhrases,
@@ -15,13 +16,15 @@ import {
   addSeenPhrases,
   updateSeenPhrases,
   switchLanguages,
-  addLearntPhrase,
   setLearntPhrases,
+  switchThemeMode,
+  addLearntPhrase,
   removeLearntPhrase,
 } from '../redux/actions';
 
 function mapStateToProps(state) {
   return {
+    themeMode: themeMode(state),
     seenPhrases: seenPhrases(state),
     userPhrases: userPhrases(state),
     categories: categoriesRoot(state),
@@ -35,11 +38,13 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   addSeenPhrases,
+  switchThemeMode,
   addLearntPhrase,
   setLearntPhrases,
   updateSeenPhrases,
-  removeLearntPhrase,
   switchLanguages,
+  addLearntPhrase,
+  removeLearntPhrase,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Learning);

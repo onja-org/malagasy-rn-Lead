@@ -4,15 +4,19 @@ import {combineReducers} from 'redux';
 import {
   SET_PHRASES,
   SET_CATEGORIES,
+  SET_USER_PHRASES,
+  SET_SEEN_PHRASES,
   SET_LANGUAGE_NAME,
   SET_LEARNT_PHRASES,
   SET_CURRENT_CATEGORY,
-  SET_USER_PHRASES,
-  SET_SEEN_PHRASES,
   SWITCH_LANGUAGES,
+  SET_THEME_MODE,
+  SWITCH_THEME_MODE,
 } from '../constants';
 
 import {LANGUAGE_NAMES} from '../../data/dataUtils';
+
+import {LIGHT_MODE, DARK_MODE} from '../../ThemeMode/ThemeMode';
 
 // categories reducer
 function categories(state = [], action) {
@@ -86,8 +90,24 @@ function learntPhrases(state = [], action) {
   }
 }
 
+const initialState = {
+  theme: LIGHT_MODE,
+};
+
+function themeMode(state = initialState, action) {
+  switch (action.type) {
+    case SET_THEME_MODE:
+      return action.payload;
+    case SWITCH_THEME_MODE:
+      return state === LIGHT_MODE ? DARK_MODE : LIGHT_MODE;
+    default:
+      return state;
+  }
+}
+
 // combine all of the reducers together
 export default combineReducers({
+  themeMode,
   categories,
   userPhrases,
   seenPhrases,

@@ -1,6 +1,5 @@
 import {shuffleArray} from '../utils/index';
 import List from '../components/List/List';
-import {action} from '@storybook/addon-actions';
 import {LANGUAGE_NAMES} from '../data/dataUtils';
 import ToolBar from '../components/ToolBar/ToolBar';
 import Textarea from '../components/Textarea/Textarea';
@@ -11,7 +10,12 @@ import ModeIcon from '../components/ToolButton/assets/mode.svg';
 import BackIcon from '../components/ToolButton/assets/back.svg';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
-import {getPhrasesForCategoryId} from '../data/dataUtils';
+import {
+  getStyle,
+  CONTAINER_STYLE,
+  SELECT_CATEGORY_HEADING,
+  getFillColor,
+} from '../ThemeMode/ThemeMode';
 
 import {
   Text,
@@ -32,14 +36,15 @@ import {
 } from '../translations/index';
 
 export default ({
-  //nav provider
-  navigation,
+  themeMode,
   categories,
+  navigation,
   seenPhrases,
   learntPhrases,
   addSeenPhrases,
   categoryPhrases,
   addLearntPhrase,
+  switchThemeMode,
   updateSeenPhrases,
   currentCategoryName,
   removeLearntPhrase,
@@ -60,42 +65,26 @@ export default ({
 
   const setAnswerOptionsCallback = (original, current) => {
     const originWithoutCurrent = original.filter(phr => phr.id !== current.id);
-
-    const phraseCategoryId = categories.find(cat =>
-      cat.phrasesIds.includes(current?.id),
-    );
-
-    const allNewPhrases = getPhrasesForCategoryId(phraseCategoryId?.id);
-    const removeDuplicateItem = allNewPhrases.filter(
-      phr => phr.id !== current.id,
-    );
-    const randomFromAll = shuffleArray(
-      seenPhrases || learntPhrases ? removeDuplicateItem : originWithoutCurrent,
-    ).slice(0, 3);
-
-    let randomWithCorrect = shuffleArray([...randomFromAll, current]);
+    const randomFromAll = shuffleArray(originWithoutCurrent).slice(0, 3);
+    const randomWithCorrect = shuffleArray([...randomFromAll, current]);
     setAnswerOptions(randomWithCorrect);
   };
 
   const selectAnswerCallback = useCallback(
     item => {
       if (item.id === currentPhrase.id) {
-        // Add seen phrases
         const correctPhraseInSeenPhrases = seenPhrases.find(
           phr => phr.id === item.id,
         );
         if (correctPhraseInSeenPhrases) {
           updateSeenPhrases(correctPhraseInSeenPhrases);
         }
-        // Add learnt phrases
         learntPhrases.every(phrase => phrase.id !== item.id) &&
           addLearntPhrase(item);
       } else {
-        // Add seen phrases
         if (seenPhrases.every(phrase => phrase.id !== item.id)) {
           addSeenPhrases(item);
         }
-        // Add learnt phrases
         const wrongPhrasesInLearntPhrases = learntPhrases.find(
           phr => phr.id === item.id,
         );
@@ -144,14 +133,11 @@ export default ({
     const newPhrase = phrasesLeftCopy.shift();
     setPhrasesLeft(phrasesLeftCopy);
     setCurrentPhrase(newPhrase);
-
     setAnswerOptionsCallback(originalAll, newPhrase);
   };
-
   const currentSeenCategory = categories.find(cat =>
     cat.phrasesIds.includes(currentPhrase?.id),
   );
-
   const usedLanguage = nativeLanguage === LANGUAGE_NAMES.EN;
   const categoryHeading = LANGUAGE_DATA[CATEGORY_HEADING][nativeLanguage];
   const phraseHeading = LANGUAGE_DATA[PHRASES_HEADING][nativeLanguage];
@@ -162,7 +148,9 @@ export default ({
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
+      <KeyboardAvoidingView
+        style={getStyle(CONTAINER_STYLE, themeMode)}
+        behavior="padding">
         <View style={{paddingHorizontal: 35, paddingVertical: 23}}>
           <View style={styles.header}>
             <ToolBar
@@ -171,17 +159,21 @@ export default ({
                   onPress={() => {
                     navigation.navigate('Home');
                   }}>
-                  <BackIcon width={24} height={24} fill="#FFFFFF" />
+                  <BackIcon
+                    width={24}
+                    height={24}
+                    fill={getFillColor(themeMode)}
+                  />
                 </ToolButton>
               }
             />
             <ToolBar
               button={
                 <LanguageSwitcher
-                  firstLanguage={nativeLanguage}
                   LeftText={usedLanguage ? 'MG' : 'EN'}
                   RightText={usedLanguage ? 'EN' : 'MG'}
-                  color="#FFFFFF"
+                  firstLanguage={nativeLanguage}
+                  color={getFillColor(themeMode)}
                   iconType=""
                   iconName="swap-horiz"
                   onPress={() => switchLanguages(nativeLanguage)}
@@ -191,15 +183,19 @@ export default ({
             />
             <ToolBar
               button={
-                <ToolButton onPress={action('clicked-add-button')}>
-                  <ModeIcon width={24} height={24} fill="#FFFFFF" />
+                <ToolButton onPress={() => switchThemeMode()}>
+                  <ModeIcon
+                    width={24}
+                    height={24}
+                    fill={getFillColor(themeMode)}
+                  />
                 </ToolButton>
               }
             />
           </View>
           <View style={styles.heading}>
-            <SectionHeading text={categoryHeading} />
-            <Text>
+            <SectionHeading text={categoryHeading} themeMode={themeMode} />
+            <Text style={getStyle(SELECT_CATEGORY_HEADING, themeMode)}>
               {usedLanguage && currentSeenCategory
                 ? currentSeenCategory.name.en
                 : currentCategoryName && currentSeenCategory
@@ -208,11 +204,12 @@ export default ({
             </Text>
           </View>
           <View style={styles.heading}>
-            <SectionHeading text={phraseHeading} />
+            <SectionHeading text={phraseHeading} themeMode={themeMode} />
           </View>
           <View style={{marginBottom: 37}}>
             <Textarea
               editable={false}
+              themeMode={themeMode}
               phrase={
                 shouldReshuffle
                   ? 'You have answered all the questions in this category'
@@ -224,19 +221,20 @@ export default ({
           </View>
           {!shouldReshuffle && Boolean(answerOptions && answerOptions.length) && (
             <View>
-              <View style={styles.heading}>
-                <SectionHeading text={pickSolution} />
+              <View style={{marginBottom: 37}}>
+                <SectionHeading text={pickSolution} themeMode={themeMode} />
               </View>
               <List
-                lang={usedLanguage ? LANGUAGE_NAMES.EN : LANGUAGE_NAMES.MG}
-                data={answerOptions}
-                text={pickButton}
                 color="#06B6D4"
-                iconType="material-community"
+                text={pickButton}
+                data={answerOptions}
+                themeMode={themeMode}
                 iconName="arrow-right"
+                iconType="material-community"
                 makeAction={selectAnswerCallback}
                 randomPhraseId={currentPhrase.id}
                 disableAllOptions={disableAllOptions}
+                lang={usedLanguage ? LANGUAGE_NAMES.EN : LANGUAGE_NAMES.MG}
               />
             </View>
           )}
@@ -245,8 +243,8 @@ export default ({
             <View style={{marginTop: 45}}>
               <NextButton
                 isDisabled={false}
-                textColor="#FFFFFF"
                 text={nextButton}
+                textColor={getFillColor(themeMode)}
                 onPress={nextAnswerCallback}
               />
             </View>
@@ -255,8 +253,8 @@ export default ({
             <View style={{marginTop: 45}}>
               <NextButton
                 isDisabled={false}
-                textColor="#FFFFFF"
                 text={reshuffleButton}
+                textColor={getFillColor(themeMode)}
                 onPress={reshuffleCallback}
               />
             </View>

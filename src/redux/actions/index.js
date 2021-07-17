@@ -1,4 +1,3 @@
-// // import all of the constants from contants folder
 import {
   getData,
   storeData,
@@ -16,10 +15,11 @@ import {
   LEARNT_KEY_PHRASES,
   SET_CURRENT_CATEGORY,
   SWITCH_LANGUAGES,
+  SET_THEME_MODE,
+  SWITCH_THEME_MODE,
 } from '../constants';
 
 import {getAllCategories} from '../../data/dataUtils';
-// categories actions
 export function setCategories(categories) {
   return {
     type: SET_CATEGORIES,
@@ -34,7 +34,6 @@ export function setCurrentCategory(categoryId) {
   };
 }
 
-// phrases action
 export function setPhrases(phrases) {
   return {
     type: SET_PHRASES,
@@ -70,12 +69,24 @@ export function setUserPhrases(phrases) {
   };
 }
 
-// Handle languages switcher
 export const switchLanguages = () => {
   return {
     type: SWITCH_LANGUAGES,
   };
 };
+
+export function setThemeMode(theme) {
+  return {
+    type: SET_THEME_MODE,
+    payload: theme,
+  };
+}
+
+export function switchThemeMode() {
+  return {
+    type: SWITCH_THEME_MODE,
+  };
+}
 
 export function asyncGetAllCategories() {
   return async dispatch => {
@@ -85,7 +96,6 @@ export function asyncGetAllCategories() {
   };
 }
 
-// add seen phrases
 export function addSeenPhrases(phrase) {
   return async dispatch => {
     const storedPhrases = await getData(SEEN_PHRASES_KEY);
@@ -96,7 +106,6 @@ export function addSeenPhrases(phrase) {
   };
 }
 
-// add learnt phrases
 export function addLearntPhrase(phrase) {
   return async dispatch => {
     const storedPhrases = await getData(LEARNT_KEY_PHRASES);
@@ -107,7 +116,6 @@ export function addLearntPhrase(phrase) {
   };
 }
 
-// update seen phrases
 export function updateSeenPhrases(phrase) {
   return async dispatch => {
     const storedPhrases = await getData(SEEN_PHRASES_KEY);
@@ -142,7 +150,6 @@ export function addNewPhrases(phrase) {
   };
 }
 
-// get data from asyncstorage
 export const syncStorageToRedux = () => {
   return async dispatch => {
     const storedLearntPhrases = await getData(LEARNT_KEY_PHRASES);
