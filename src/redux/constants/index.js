@@ -10,3 +10,6 @@ export const SET_CURRENT_CATEGORY = 'SET_CURRENT_CATEGORY';
 export const SWITCH_LANGUAGES = 'SWITCH_LANGUAGES';
 export const LEARNT_PRHASES_ID = '###learnt-phrases###';
 export const SEEN_PHRASES_ID = '###seen-phrases###';
+export const SET_DARK_MODE = 'SET_DARK_MODE';
+export const SET_LIGHT_MODE = 'SET_LIGHT_MODE';
+export const SWITCH_THEME_MODE = 'SWITCH_THEME_MODE';

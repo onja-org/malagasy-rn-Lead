@@ -1,4 +1,5 @@
 import {LANGUAGE_NAMES} from '../data/dataUtils';
+import {LIGHT_MODE} from '../ThemeMode/ThemeMode';
 
 export default {
   categories: [],
@@ -7,5 +8,6 @@ export default {
   learntPhrases: [],
   categoryPhrases: [],
   currentCategoryId: '',
+  themeMode: LIGHT_MODE,
   nativeLanguage: LANGUAGE_NAMES.EN,
 };

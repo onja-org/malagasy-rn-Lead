@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Picker} from '@react-native-picker/picker';
-import {action} from '@storybook/addon-actions';
 import 'react-native-get-random-values';
 import {v4 as uuid} from 'uuid';
 import {
@@ -33,13 +32,21 @@ import {
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import LanguageSwitcher from '../components/LanguageSwitcher/LanguageSwitcher';
 
+import {
+  getStyle,
+  CONTAINER_STYLE,
+  getFillColor,
+  LIGHT_MODE,
+} from '../ThemeMode/ThemeMode';
+
 export default ({
-  //nav provider
+  themeMode,
   navigation,
   categories,
   addNewPhrases,
   nativeLanguage,
   switchLanguages,
+  switchThemeMode,
 }) => {
   const [categoryId, setCategoryId] = useState('');
   const [englishPhrase, setEnglishPhrase] = useState('');
@@ -65,7 +72,7 @@ export default ({
   };
   const mergingPhrasesStates = {...englishText, ...malagasyText};
 
-  // find the selected category
+  // Find the selected category
   const selectCategory = categoryName => {
     setSelectedCategory(categoryName);
     const selectedCat = categories.find(cat =>
@@ -76,13 +83,13 @@ export default ({
     setCategoryId(selectedCat.id);
   };
   const addnewPhraseForCategory = () => {
+    console.log('add');
     const newPhrase = {
       catId: categoryId,
       id: uuid(),
       name: mergingPhrasesStates,
     };
     addNewPhrases(newPhrase);
-    // clear input
     setEnglishPhrase('');
     setMalagsyPhrase('');
   };
@@ -93,6 +100,14 @@ export default ({
 
   const isButtonDisabled =
     malagasyPhrase && englishPhrase && selectedCategory ? false : true;
+
+  function CategoryColor(theme) {
+    if (selectedCategory && theme === LIGHT_MODE) {
+      return 'black';
+    } else if (selectedCategory && theme !== LIGHT_MODE) {
+      return 'white';
+    }
+  }
 
   // Switch languages
   const usedLanguage = nativeLanguage === LANGUAGE_NAMES.EN;
@@ -106,7 +121,9 @@ export default ({
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
+      <KeyboardAvoidingView
+        style={getStyle(CONTAINER_STYLE, themeMode)}
+        behavior="padding">
         <View style={{paddingHorizontal: 35, paddingVertical: 23}}>
           <View style={styles.header}>
             <ToolBar
@@ -115,14 +132,22 @@ export default ({
                   onPress={() => {
                     navigation.navigate('Home');
                   }}>
-                  <BackIcon width={24} height={24} fill="#FFFFFF" />
+                  <BackIcon
+                    width={24}
+                    height={24}
+                    fill={getFillColor(themeMode)}
+                  />
                 </ToolButton>
               }
             />
             <ToolBar
               button={
-                <ToolButton onPress={action('clicked-mode-Icon')}>
-                  <ModeIcon width={24} height={24} fill="#FFFFFF" />
+                <ToolButton onPress={() => switchThemeMode()}>
+                  <ModeIcon
+                    width={24}
+                    height={24}
+                    fill={getFillColor(themeMode)}
+                  />
                 </ToolButton>
               }
             />
@@ -132,28 +157,33 @@ export default ({
                   firstLanguage={nativeLanguage}
                   LeftText={usedLanguage ? 'MG' : 'EN'}
                   RightText={usedLanguage ? 'EN' : 'MG'}
-                  color="#FFFFFF"
-                  iconType=""
                   iconName="swap-horiz"
                   onPress={() => switchLanguages(nativeLanguage)}
+                  iconType=""
+                  LeftText="EN"
                   iconSize={24}
+                  RightText="MA"
+                  color={getFillColor(themeMode)}
                 />
               }
             />
           </View>
           <View style={styles.headerCategoryWrapper}>
-            <SectionHeading text={categoryHeading} />
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
+              <SectionHeading text={categoryHeading} themeMode={themeMode} />
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Picker
                 selectedValue={selectedCategory}
                 style={{
                   width: 200,
                   height: 100,
                   backgroundColor: 'transparent',
+                  color: CategoryColor(themeMode),
                 }}
                 mode="dropdown"
                 onValueChange={Text => {
@@ -187,10 +217,11 @@ export default ({
           </View>
           <View style={styles.headerPhrases}>
             <Text style={{paddingBottom: 15}}>
-              <SectionHeading text={phrasesInEnglish} />
+              <SectionHeading text={phrasesInEnglish} themeMode={themeMode} />
             </Text>
             <Textarea
               editable={true}
+              themeMode={themeMode}
               multiline={true}
               placeholder={textareaPlaceholder}
               phrase={englishPhrase}
@@ -199,11 +230,12 @@ export default ({
           </View>
           <View style={styles.headerPhrases}>
             <Text style={{paddingBottom: 15}}>
-              <SectionHeading text={phraseInMalagasy} />
+              <SectionHeading text={phraseInMalagasy} themeMode={themeMode} />
             </Text>
             <Textarea
               placeholder={textareaPlaceholder}
               editable={true}
+              themeMode={themeMode}
               multiline={true}
               phrase={malagasyPhrase}
               onChange={Text => setMalagsyPhrase(Text)}

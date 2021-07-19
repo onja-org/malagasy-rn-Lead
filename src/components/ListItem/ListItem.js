@@ -1,12 +1,17 @@
 import React from 'react';
 import ActionButton from '../ActionButton/ActionButton';
 import {
+  getStyle,
+  LIST_TEXT_STYLE,
+  SEPARATOR_LIST_ITEM,
+} from '../../ThemeMode/ThemeMode';
+import {
   Text,
   View,
-  TouchableOpacity,
-  SafeAreaView,
   StyleSheet,
   SectionList,
+  SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -15,16 +20,19 @@ import {
   LANGUAGE_DATA,
 } from '../../translations/index';
 
-export const Separator = () => <View style={styles.separator} />;
+export const Separator = ({themeMode}) => (
+  <View style={getStyle(SEPARATOR_LIST_ITEM, themeMode)} />
+);
 const RenderDataItem = ({
   item,
   index,
-  makeAction,
+  lang,
   text,
+  color,
   iconName,
   iconType,
-  color,
-  lang,
+  themeMode,
+  makeAction,
   randomPhraseId,
   disableAllOptions,
 }) => {
@@ -68,7 +76,10 @@ const RenderDataItem = ({
       style={styles.item}
       onPress={() => makeAction(item, index)}>
       <View>
-        <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.text}>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode={'tail'}
+          style={getStyle(LIST_TEXT_STYLE, themeMode)}>
           {lang ? item?.name?.[lang] : item.name}
         </Text>
       </View>
@@ -84,12 +95,13 @@ const RenderDataItem = ({
 
 export default function ListItem({
   makeAction,
+  lang,
   data,
   text,
+  color,
   iconName,
   iconType,
-  color,
-  lang,
+  themeMode,
   randomPhraseId,
   disableAllOptions,
 }) {
@@ -100,19 +112,20 @@ export default function ListItem({
         renderItem={({item, index}) => (
           <RenderDataItem
             item={item}
-            index={index}
-            makeAction={makeAction}
+            lang={lang}
             text={text}
+            color={color}
+            index={index}
             iconName={iconName}
             iconType={iconType}
-            color={color}
-            lang={lang}
+            themeMode={themeMode}
+            makeAction={makeAction}
             randomPhraseId={randomPhraseId}
             disableAllOptions={disableAllOptions}
           />
         )}
         keyExtractor={item => item.id}
-        ItemSeparatorComponent={() => <Separator />}
+        ItemSeparatorComponent={() => <Separator themeMode={themeMode} />}
       />
     </SafeAreaView>
   );
@@ -127,19 +140,5 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 20,
     paddingVertical: 17,
-  },
-  text: {
-    fontFamily: 'Inter',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 16,
-    lineHeight: 19,
-    color: '#111827',
-    maxWidth: 320,
-  },
-  separator: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#E5E5E5',
   },
 });

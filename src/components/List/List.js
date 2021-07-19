@@ -1,21 +1,23 @@
 import React from 'react';
 import ListItem from '../ListItem/ListItem';
-import {View, SafeAreaView, StyleSheet} from 'react-native';
+import {View, SafeAreaView} from 'react-native';
+import {getStyle, LIST_CONTAINER_STYLE} from '../../ThemeMode/ThemeMode';
 
 export default function List({
   data,
   text,
+  lang,
+  color,
   iconName,
   iconType,
-  color,
+  themeMode,
   makeAction,
-  lang,
   randomPhraseId,
   disableAllOptions,
 }) {
   return (
     <SafeAreaView>
-      <View style={styles.list}>
+      <View style={getStyle(LIST_CONTAINER_STYLE, themeMode)}>
         <ListItem
           lang={lang}
           data={data}
@@ -26,18 +28,9 @@ export default function List({
           makeAction={makeAction}
           randomPhraseId={randomPhraseId}
           disableAllOptions={disableAllOptions}
+          themeMode={themeMode}
         />
       </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  list: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E5E5E5',
-    maxHeight: 370,
-    marginBottom: 15,
-  },
-});

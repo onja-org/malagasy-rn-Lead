@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+export const themeMode = state => state.themeMode;
 export const userPhrases = state => state.userPhrases;
 export const seenPhrases = state => state.seenPhrases;
 export const randomPhrase = state => state.randomPhrase;
