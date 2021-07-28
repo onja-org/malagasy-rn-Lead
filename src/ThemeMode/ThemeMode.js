@@ -65,6 +65,8 @@ export const getStyle = (stylekey, theme) => {
 
 export const getFillColor = theme =>
   theme === LIGHT_MODE ? '#FFFF' : '#111827';
+export const textAreaPlaceholderColor = theme =>
+  theme === LIGHT_MODE ? 'rgba(17, 24, 39, 0.5)' : '#fff';
 
 export const DARK_MODE = 'dark';
 export const LIGHT_MODE = 'light';

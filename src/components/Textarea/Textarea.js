@@ -3,6 +3,7 @@ import * as React from 'react';
 import {SafeAreaView, TextInput} from 'react-native';
 import {
   getStyle,
+  textAreaPlaceholderColor,
   TEXTAREA_TEXT,
   TEXTAREA_CONTAINER,
   TEXTAREA_IN_INPUT_FORM,
@@ -28,6 +29,7 @@ export default function Textarea({
         onChangeText={onChange}
         multiline={true}
         placeholder={placeholder}
+        placeholderTextColor={textAreaPlaceholderColor(themeMode)}
       />
     </SafeAreaView>
   );
