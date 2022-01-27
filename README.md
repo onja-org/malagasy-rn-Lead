@@ -5,7 +5,7 @@
    - Two operating modes where you can set Malagasy or English as primary language.
    - Randomly generated answers to choose from - keeps challenges always exciting.
    - “Seen” and “Learnt” phrases are easily accessible to track learning progress.
-   - Possibility to add new custom phrases and assigning them to existing categories.
+   - Possibility to add new custom phrases and assign them to existing categories.
    - Dark/light mode.
    - Easy navigation.
    - Persistent storage to track your progress between sessions.
